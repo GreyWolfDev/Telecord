@@ -105,8 +105,8 @@ namespace Telecord
                                         var chan = updates.Chats.Where(x => x is TChannel).Cast<TChannel>().FirstOrDefault(x => x.Id == c.ChannelId);
                                         //forward the message to discord
                                         //445308465850613763
-                                        foreach (var conn in conns)
-                                            Discord.SendMessage(m, conn, chan);
+                                        //foreach (var conn in conns)
+                                        Discord.SendMessage(m, conns.ToList(), chan);
                                     }
                                 }
                             }
