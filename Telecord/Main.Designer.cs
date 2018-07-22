@@ -42,6 +42,7 @@
             this.txtLog = new System.Windows.Forms.TextBox();
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,6 +81,7 @@
             // listConnections
             // 
             this.listConnections.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader8,
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
@@ -89,7 +91,7 @@
             this.columnHeader7});
             this.listConnections.FullRowSelect = true;
             this.listConnections.HideSelection = false;
-            this.listConnections.Location = new System.Drawing.Point(6, 25);
+            this.listConnections.Location = new System.Drawing.Point(0, 19);
             this.listConnections.Name = "listConnections";
             this.listConnections.Size = new System.Drawing.Size(1122, 220);
             this.listConnections.TabIndex = 2;
@@ -104,7 +106,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Discord Server: Channel";
-            this.columnHeader2.Width = 369;
+            this.columnHeader2.Width = 320;
             // 
             // columnHeader3
             // 
@@ -146,7 +148,12 @@
             // columnHeader7
             // 
             this.columnHeader7.Text = "Last Post";
-            this.columnHeader7.Width = 127;
+            this.columnHeader7.Width = 125;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Enabled";
+            this.columnHeader8.Width = 59;
             // 
             // Main
             // 
@@ -182,6 +189,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
     }
 }
 

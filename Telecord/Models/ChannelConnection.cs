@@ -18,5 +18,6 @@ namespace Telecord.Models
         public ulong DiscordHookId { get; set; }
         public int Posts { get; set; }
         public DateTime LastPost { get; set; }
+        public bool Enabled { get; set; } = true;
     }
 }

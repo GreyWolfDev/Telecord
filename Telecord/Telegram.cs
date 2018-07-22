@@ -93,12 +93,13 @@ namespace Telecord
                                 {
                                     if (m.ToId is TPeerChannel c)
                                     {
-                                        var conns = Program.Connections.Where(x => x.TelegramChannelId == c.ChannelId);
+                                        var conns = Program.Connections.Where(x => x.TelegramChannelId == c.ChannelId && x.Enabled);
                                         if (!conns.Any()) continue;
                                         //-1001288603754
                                         //c.ChannelId == 1288603754
                                         if (SentMessages.Contains(m.Id))
                                             continue;
+                                        
                                         conns.All(x => { x.Posts++; x.LastPost = DateTime.Now; return true; });
                                         Program.SaveConnections();
                                         Log.WriteLine("Channel message posted in " + conns.FirstOrDefault().TelegramChannelName);

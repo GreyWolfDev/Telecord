@@ -19,14 +19,14 @@ namespace Telecord
 {
     public partial class Main : Form
     {
-        
+
         private static bool Exit;
         public Main()
         {
             InitializeComponent();
             Task.Run(() => Telegram.Initialize()).Wait();
             new Thread(WatchLog).Start();
-            
+
             //Task.Run(() => Telegram.ConfigureClient()).Wait();
             if (!Telegram.clientApi?.AuthService.CurrentUserId.HasValue ?? true)
             {
@@ -43,6 +43,8 @@ namespace Telecord
         private void LoadConnection()
         {
             listConnections.Items.Clear();
+            listConnections.ItemChecked -= ListConnections_ItemChecked;
+            listConnections.CheckBoxes = true;
             Program.LoadConnections();
             var nsfw = new List<ChannelConnection>();
             foreach (var item in Program.Connections)
@@ -50,7 +52,27 @@ namespace Telecord
                 //if (item.DiscordChannelName.Contains("nsfw") || item.DiscordChannelName.Contains("Rule 34"))
                 //    nsfw.Add(item);
                 //else
-                    listConnections.Items.Add(new ListViewItem(new string[] { item.TelegramChannelName, item.DiscordChannelName, item.Everyone.ToString(), item.AllowUrls.ToString(), item.ShowName.ToString(), item.Posts.ToString(), item.LastPost.ToString() }));
+                var lvi = new ListViewItem(new string[] { "", item.TelegramChannelName, item.DiscordChannelName, item.Everyone.ToString(), item.AllowUrls.ToString(), item.ShowName.ToString(), item.Posts.ToString(), item.LastPost.ToString() });
+                lvi.Checked = item.Enabled;
+                
+                listConnections.Items.Add(lvi);
+                
+            }
+            listConnections.ItemChecked += ListConnections_ItemChecked;
+        }
+
+        private void ListConnections_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (e.Item == null) return;
+            //get the connection
+            var tgch = e.Item.SubItems[1].Text;
+            var dch = e.Item.SubItems[2].Text;
+            var conn = Program.Connections.FirstOrDefault(x => x.TelegramChannelName == tgch && x.DiscordChannelName == dch);
+            if (conn != null)
+            {
+                conn.Enabled = !conn.Enabled;
+                Program.SaveConnections();
+                LoadConnection();
             }
         }
 
