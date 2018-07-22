@@ -44,12 +44,16 @@
             this.btnSaveDiscord = new System.Windows.Forms.Button();
             this.txtDiscordToken = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtPort = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtPort);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtKey);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtIp);
@@ -88,7 +92,7 @@
             // 
             this.txtIp.Location = new System.Drawing.Point(203, 36);
             this.txtIp.Name = "txtIp";
-            this.txtIp.Size = new System.Drawing.Size(247, 20);
+            this.txtIp.Size = new System.Drawing.Size(170, 20);
             this.txtIp.TabIndex = 7;
             // 
             // lbl4532
@@ -129,7 +133,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(385, 10);
+            this.linkLabel1.Location = new System.Drawing.Point(87, 0);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(65, 13);
             this.linkLabel1.TabIndex = 2;
@@ -192,6 +196,24 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Bot Token";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(376, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(26, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Port";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(379, 36);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(71, 20);
+            this.txtPort.TabIndex = 11;
+            this.txtPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPort_KeyPress);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -228,5 +250,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtIp;
         private System.Windows.Forms.Label lbl4532;
+        private System.Windows.Forms.TextBox txtPort;
+        private System.Windows.Forms.Label label4;
     }
 }

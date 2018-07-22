@@ -16,5 +16,7 @@ namespace Telecord.Models
         public bool ShowName { get; set; }
         public string DiscordHookToken { get; set; }
         public ulong DiscordHookId { get; set; }
+        public int Posts { get; set; }
+        public DateTime LastPost { get; set; }
     }
 }

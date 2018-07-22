@@ -51,7 +51,7 @@ namespace Telecord
                 AppId = Properties.Settings.Default.TelegramAppId,
                 ServerAddress = Properties.Settings.Default.TelegramIp,
                 ServerPublicKey = Properties.Settings.Default.PublicKey,
-                ServerPort = 443,
+                ServerPort = Properties.Settings.Default.TelegramPort,
                 SessionTag = "telecord", // by defaut
                 Properties = new ApplicationProperties
                 {
@@ -68,7 +68,7 @@ namespace Telecord
             Log.WriteLine("Connected, creating event handler");
             clientApi.UpdatesService.RecieveUpdates += UpdatesService_RecieveUpdates;
             clientApi.KeepAliveConnection();
-            
+
             if (clientApi.AuthService.CurrentUserId.HasValue)
             {
                 await clientApi.UsersService.GetCurrentUserFullAsync();
@@ -99,7 +99,10 @@ namespace Telecord
                                         //c.ChannelId == 1288603754
                                         if (SentMessages.Contains(m.Id))
                                             continue;
+                                        conns.All(x => { x.Posts++; x.LastPost = DateTime.Now; return true; });
+                                        Program.SaveConnections();
                                         Log.WriteLine("Channel message posted in " + conns.FirstOrDefault().TelegramChannelName);
+
                                         SentMessages.Add(m.Id);
                                         //get the channel
                                         var chan = updates.Chats.Where(x => x is TChannel).Cast<TChannel>().FirstOrDefault(x => x.Id == c.ChannelId);
@@ -112,9 +115,13 @@ namespace Telecord
                             }
                         }
                     }
+                    catch (AggregateException e)
+                    {
+                        Log.WriteLine($"Error: {e.InnerException.Message}\r\n{e.InnerException.StackTrace}");
+                    }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e.Message);
+                        Log.WriteLine($"Error: {e.Message}\r\n{e.StackTrace}");
                     }
                     break;
                 case TUpdatesCombined updatesCombined:

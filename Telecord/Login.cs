@@ -93,7 +93,7 @@ namespace Telecord
                 MessageBox.Show("Logged in as " + u.FirstName, "Welcome");
                 grpLogin.Enabled = false;
                 //Telegram.StartAsync();
-                this.Close();
+                Close();
             }
             catch (AggregateException ex)
             {

@@ -40,6 +40,8 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,14 +62,14 @@
             this.groupBox1.Controls.Add(this.btnAdd);
             this.groupBox1.Location = new System.Drawing.Point(12, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(939, 280);
+            this.groupBox1.Size = new System.Drawing.Size(1134, 280);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connections";
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(692, 251);
+            this.btnDelete.Location = new System.Drawing.Point(887, 251);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(108, 23);
             this.btnDelete.TabIndex = 3;
@@ -82,12 +84,14 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
-            this.columnHeader5});
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7});
             this.listConnections.FullRowSelect = true;
             this.listConnections.HideSelection = false;
             this.listConnections.Location = new System.Drawing.Point(6, 25);
             this.listConnections.Name = "listConnections";
-            this.listConnections.Size = new System.Drawing.Size(927, 220);
+            this.listConnections.Size = new System.Drawing.Size(1122, 220);
             this.listConnections.TabIndex = 2;
             this.listConnections.UseCompatibleStateImageBehavior = false;
             this.listConnections.View = System.Windows.Forms.View.Details;
@@ -118,7 +122,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(806, 251);
+            this.btnAdd.Location = new System.Drawing.Point(1001, 251);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(127, 23);
             this.btnAdd.TabIndex = 1;
@@ -131,18 +135,30 @@
             this.txtLog.Location = new System.Drawing.Point(12, 312);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(939, 251);
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLog.Size = new System.Drawing.Size(1128, 251);
             this.txtLog.TabIndex = 3;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Posts";
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Last Post";
+            this.columnHeader7.Width = 127;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(963, 575);
+            this.ClientSize = new System.Drawing.Size(1158, 575);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSettings);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Telecord";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
@@ -164,6 +180,8 @@
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
     }
 }
 

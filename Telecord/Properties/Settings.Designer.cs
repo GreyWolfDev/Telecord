@@ -94,5 +94,17 @@ namespace Telecord.Properties {
                 this["PublicKey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("443")]
+        public int TelegramPort {
+            get {
+                return ((int)(this["TelegramPort"]));
+            }
+            set {
+                this["TelegramPort"] = value;
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace Telecord
             txtDiscordToken.Text = Properties.Settings.Default.DiscordBotToken;
             txtIp.Text = Properties.Settings.Default.TelegramIp;
             txtKey.Text = Properties.Settings.Default.PublicKey;
+            txtPort.Text = Properties.Settings.Default.TelegramPort.ToString();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -47,6 +48,7 @@ namespace Telecord
                 var hash = txtTGApiHash.Text;
                 var key = txtKey.Text;
                 var ip = txtIp.Text;
+                var port = int.Parse(txtPort.Text);
                 ip = ip.Replace(":443", "");
                 if (int.TryParse(txtTGAppId.Text, out id))
                 {
@@ -59,7 +61,7 @@ namespace Telecord
                             AppId = id,
                             ServerAddress = ip,
                             ServerPublicKey = txtKey.Text,
-                            ServerPort = 443,
+                            ServerPort = port,
                             SessionTag = "telecord", // by defaut
                             Properties = new ApplicationProperties
                             {
@@ -80,6 +82,7 @@ namespace Telecord
                         Properties.Settings.Default.TelegramAppId = id;
                         Properties.Settings.Default.TelegramIp = ip;
                         Properties.Settings.Default.PublicKey = key;
+                        Properties.Settings.Default.TelegramPort = port;
                         Properties.Settings.Default.Save();
                         MessageBox.Show("App settings saved!");
                     }
@@ -120,6 +123,19 @@ namespace Telecord
             catch(AggregateException ex)
             {
                 MessageBox.Show(ex.InnerException.Message);
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPort_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
     }

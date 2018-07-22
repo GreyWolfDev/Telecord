@@ -13,6 +13,7 @@ using OpenTl.ClientApi.MtProto;
 using OpenTl.ClientApi.MtProto.Exceptions;
 using OpenTl.Schema;
 using OpenTl.Schema.Auth;
+using Telecord.Models;
 
 namespace Telecord
 {
@@ -43,9 +44,13 @@ namespace Telecord
         {
             listConnections.Items.Clear();
             Program.LoadConnections();
+            var nsfw = new List<ChannelConnection>();
             foreach (var item in Program.Connections)
             {
-                listConnections.Items.Add(new ListViewItem(new string[] { item.TelegramChannelName, item.DiscordChannelName, item.Everyone.ToString(), item.AllowUrls.ToString(), item.ShowName.ToString() }));
+                //if (item.DiscordChannelName.Contains("nsfw") || item.DiscordChannelName.Contains("Rule 34"))
+                //    nsfw.Add(item);
+                //else
+                    listConnections.Items.Add(new ListViewItem(new string[] { item.TelegramChannelName, item.DiscordChannelName, item.Everyone.ToString(), item.AllowUrls.ToString(), item.ShowName.ToString(), item.Posts.ToString(), item.LastPost.ToString() }));
             }
         }
 
@@ -74,7 +79,7 @@ namespace Telecord
                             Thread.Sleep(1000);
                     }
                     text = Program.Log;
-                    
+                    Invoke(new MethodInvoker(delegate { LoadConnection(); }));
                     Invoke(new MethodInvoker(delegate { txtLog.Text = Program.Log; txtLog.SelectionStart = txtLog.Text.Length - 1; txtLog.ScrollToCaret(); }));
                 }
                 Thread.Sleep(500);

@@ -135,7 +135,28 @@ namespace Telecord
                             var p = mp.Photo as TPhoto;
                             var s = p.Sizes.Where(x => x is TPhotoSize).Cast<TPhotoSize>().OrderByDescending(x => x.Size).First();
                             var l = s.Location as TFileLocation;
-                            var file = await Telegram.clientApi.FileService.DownloadFullFileAsync(new TInputFileLocation { LocalId = l.LocalId, Secret = l.Secret, VolumeId = l.VolumeId });
+                            byte[] file = null;
+                            var tries = 1;
+                            while (file == null && tries <= 5)
+                            {
+                                try
+                                {
+                                    file = await Telegram.clientApi.FileService.DownloadFullFileAsync(new TInputFileLocation { LocalId = l.LocalId, Secret = l.Secret, VolumeId = l.VolumeId });
+                                }
+                                catch(Exception e)
+                                {
+                                    while (e.InnerException != null) e = e.InnerException;
+                                    Log.WriteLine("Error downloading photo, trying again....\r\n" + e.Message);
+                                    await Task.Delay(1000);
+                                    tries++;
+                                }
+                            }
+                            if (tries == 5 || file == null)
+                            {
+                                Log.WriteLine($"Attempted {tries} tries to download the file, unable.  Skipping.");
+                                return;
+                            }
+                            
                             var name = $"photo_{DateTime.Now:yyyy-MM-dd_hh-mm-ss}.jpg";
                             Log.WriteLine($"Posting photo {name} to {c.DiscordChannelName} with text {text}");
                             //var w = new DiscordWebhookClient(c.DiscordHookId, c.DiscordHookToken);
@@ -168,30 +189,41 @@ namespace Telecord
 
         internal static async Task Post(string text, string token, ulong id, Stream file = null, string filename = null)
         {
-            if (LimitRemain == 0)
+            try
             {
-                var toWait = LimitReset.AddSeconds(2) - DateTime.Now;
-                if (toWait.TotalSeconds > 0)
+                if (LimitRemain == 0)
                 {
-                    Log.WriteLine($"Rate limit detected, waiting {toWait.TotalSeconds} seconds");
-                    await Task.Delay(toWait);
+                    var toWait = LimitReset.AddSeconds(2) - DateTime.Now;
+                    if (toWait.TotalSeconds > 0)
+                    {
+                        Log.WriteLine($"Rate limit detected, waiting {toWait.TotalSeconds} seconds");
+                        await Task.Delay(toWait);
+                    }
+                }
+
+                using (var client = new HttpClient())
+                {
+                    using (var data = new MultipartFormDataContent())
+                    {
+                        data.Add(new StringContent(text), "content");
+                        if (file != null)
+                        {
+                            data.Add(new StreamContent(file), "file", filename);
+                        }
+                        var r = await client.PostAsync($"https://discordapp.com/api/webhooks/{id}/{token}", data).ConfigureAwait(false);
+                        LimitRemain = int.Parse(r.Headers.FirstOrDefault(x => x.Key == "X-RateLimit-Remaining").Value.FirstOrDefault() ?? "0");
+
+                        LimitReset = new DateTime(1970, 1, 1).AddSeconds(int.Parse(r.Headers.FirstOrDefault(x => x.Key == "X-RateLimit-Reset").Value.FirstOrDefault())).ToLocalTime();
+                    }
                 }
             }
-            
-            using (var client = new HttpClient())
+            catch (AggregateException e)
             {
-                using (var data = new MultipartFormDataContent())
-                {
-                    data.Add(new StringContent(text), "content");
-                    if (file != null)
-                    {
-                        data.Add(new StreamContent(file), "file", filename);
-                    }
-                    var r = await client.PostAsync($"https://discordapp.com/api/webhooks/{id}/{token}", data).ConfigureAwait(false);
-                    LimitRemain = int.Parse(r.Headers.FirstOrDefault(x => x.Key == "X-RateLimit-Remaining").Value.FirstOrDefault() ?? "0");
-
-                    LimitReset = new DateTime(1970, 1, 1).AddSeconds(int.Parse(r.Headers.FirstOrDefault(x => x.Key == "X-RateLimit-Reset").Value.FirstOrDefault())).ToLocalTime();
-                }
+                Log.WriteLine($"Error: {e.InnerException.Message}\r\n{e.InnerException.StackTrace}");
+            }
+            catch(Exception e)
+            {
+                Log.WriteLine($"Error: {e.Message}\r\n{e.StackTrace}");
             }
         }
     }
